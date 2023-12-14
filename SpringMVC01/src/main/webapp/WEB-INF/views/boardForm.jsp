@@ -20,25 +20,29 @@
   <div class="panel panel-default">
     <div class="panel-heading">Board</div>
     <div class="panel-body">
-    	<table class="table table-boardred table-hover">
-    		<tr>
-    			<td>번호</td>
-    			<td>제목</td>
-    			<td>작성자</td>
-    			<td>작성일</td>
-    			<td>조회수</td>
-    		</tr>
-    		<c:forEach var="vo" items="${list }">
-    		<tr>
-    			<td>${vo.idx }</td>
-    			<td>${vo.title }</td>
-    			<td>${vo.writer }</td>
-    			<td>${vo.indate }</td>
-    			<td>${vo.count }</td>
-    		</tr>
-    		</c:forEach>
-    	</table>
-    	<a href="boardForm.do" class="btn btn-primary btn-sm">글쓰기</a>
+    	<form action="boardInsert.do" method="post">
+	    	<table class="table">
+	    		<tr>
+	    			<td>제목</td>
+	    			<td><input type="text" name="title" class="form-control"/></td>
+	    		</tr>
+	    		<tr>
+	    			<td>내용</td>
+	    			<!-- textarea는 하나에서 닫기까지 하면 구성 이상해짐. 앞 뒤로 닫아줘야 한다. -->
+	    			<td><textarea rows="7" name="content" class="form-control"></textarea></td>
+	    		</tr>
+	    		<tr>
+	    			<td>작성자</td>
+	    			<td><input type="text" name="writer" class="form-control"/></td>
+	    		</tr>
+	    		<tr>
+	    			<td colspan="2" align="center">
+	    				<button type="submit" class="btn btn-success btn-sm">등록</button>
+	    				<button type="reset" class="btn btn-warning btn-sm">취소</button>
+	    			</td>
+	    		</tr>
+	    	</table>
+    	</form>
     </div>
     <div class="panel-footer">인프런_스프1탄_egg</div>
   </div>
