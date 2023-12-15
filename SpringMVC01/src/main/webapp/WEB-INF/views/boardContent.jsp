@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% pageContext.setAttribute("newLineChar", "\n"); %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +29,7 @@
     		</tr>
     		<tr>
     			<td>내용</td>
-    			<td>${vo.content }</td>
+    			<td>${fn:replace(vo.content, newLineChar, "<br/>") }</td>
     		</tr>
     		<tr>
     			<td>작성자</td>
@@ -35,13 +37,13 @@
     		</tr>
     		<tr>
     			<td>작성일</td>
-    			<td>${vo.indate }</td>
+    			<td>${fn:split(vo.indate, " ")[0]}</td>
     		</tr>
     		<tr>
     			<td colspan="2" align="center">
-    				<button class="btn btn-primary btn-sm">수정화면</button>
-    				<button class="btn btn-warning btn-sm">목록</button>
-    				<button class="btn btn-info btn-sm">삭제</button>
+    				<a class="btn btn-primary btn-sm">수정화면</a>
+    				<a href="boardDelete.do/${vo.idx}" class="btn btn-warning btn-sm">삭제</a>
+    				<a href="boardList.do" class="btn btn-info btn-sm">목록</a>
     			</td>
     		</tr>
     	</table>
