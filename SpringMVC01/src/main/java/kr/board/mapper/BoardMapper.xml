@@ -9,4 +9,9 @@
 		insert into myboard(title,content,writer)
 		values(#{title},#{content},#{writer})
 	</insert>
+	
+	<!-- parameterType="int"인데, 한개이므로 생략할 수 있다. -->
+	<select id="boardContent" resultType="kr.board.entity.Board">
+		select * from myboard where idx=#{idx}
+	</select>
 </mapper>

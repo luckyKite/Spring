@@ -20,29 +20,31 @@
   <div class="panel panel-default">
     <div class="panel-heading">Board</div>
     <div class="panel-body">
-    	<form action="boardInsert.do" method="post">
-	    	<table class="table">
-	    		<tr>
-	    			<td>제목</td>
-	    			<td><input type="text" name="title" class="form-control"/></td>
-	    		</tr>
-	    		<tr>
-	    			<td>내용</td>
-	    			<!-- textarea는 하나에서 닫기까지 하면 구성 이상해짐. 앞 뒤로 닫아줘야 한다. -->
-	    			<td><textarea rows="7" name="content" class="form-control"></textarea></td>
-	    		</tr>
-	    		<tr>
-	    			<td>작성자</td>
-	    			<td><input type="text" name="writer" class="form-control"/></td>
-	    		</tr>
-	    		<tr>
-	    			<td colspan="2" align="center">
-	    				<button type="submit" class="btn btn-success btn-sm">등록</button>
-	    				<button type="reset" class="btn btn-warning btn-sm">취소</button>
-	    			</td>
-	    		</tr>
-	    	</table>
-    	</form>
+    	<table class="table">
+    		<tr>
+    			<td>제목</td>
+    			<td>${vo.title }</td>
+    		</tr>
+    		<tr>
+    			<td>내용</td>
+    			<td>${vo.content }</td>
+    		</tr>
+    		<tr>
+    			<td>작성자</td>
+    			<td>${vo.writer }</td>
+    		</tr>
+    		<tr>
+    			<td>작성일</td>
+    			<td>${vo.indate }</td>
+    		</tr>
+    		<tr>
+    			<td colspan="2" align="center">
+    				<button class="btn btn-primary btn-sm">수정화면</button>
+    				<button class="btn btn-warning btn-sm">목록</button>
+    				<button class="btn btn-info btn-sm">삭제</button>
+    			</td>
+    		</tr>
+    	</table>
     </div>
     <div class="panel-footer">인프런_스프1탄_egg</div>
   </div>
