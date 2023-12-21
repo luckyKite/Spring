@@ -20,7 +20,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">Board</div>
     <div class="panel-body">
-    	<form action="boardUpdate.do" method="post">
+    	<form action="../boardUpdate.do" method="post">
     	<input type="hidden" name="idx" value="${vo.idx }"/>
 	    	<table class="table table-boardered">
 	    		<tr>

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +34,7 @@
     			<td>${vo.idx }</td>
     			<td><a href="boardContent.do?idx=${vo.idx }">${vo.title }</a></td>
     			<td>${vo.writer }</td>
-    			<td>${vo.indate }</td>
+    			<td>${fn:split(vo.indate," ")[0] }</td>
     			<td>${vo.count }</td>
     		</tr>
     		</c:forEach>
