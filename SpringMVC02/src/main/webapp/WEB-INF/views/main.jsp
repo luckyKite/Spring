@@ -12,6 +12,26 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+  	$(document).ready(function(){
+  		loadList();
+  	});
+  	
+  	function loadList() {
+  		//서버와 통신 : 게시판 리스트 가져오기
+  		$.ajax({
+  			url:"boardList.do",
+  			type:"get",
+  			dataType:"json",
+  			success:makeView, //콜백함수
+  			error: function(){ alert("error"); }
+  		});
+  	}
+  	
+  	function makeView(data) {
+  		alert(data);
+  	}
+  </script>
 </head>
 <body>
  
