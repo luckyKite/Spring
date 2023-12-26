@@ -54,6 +54,9 @@
   		listHtml+="</tr>"
   		listHtml+="</table>";
   		$("#view").html(listHtml);
+  		
+  		$("#view").css("display", "block"); //보이고
+  		$("#wform").css("display", "none"); //감추고
   	}
   	
   	function goForm() {
@@ -62,8 +65,32 @@
   	}
   	
   	function goList() {
-  		$("#view").css("display", "block"); //감추고
-  		$("#wform").css("display", "none"); //보이고
+  		$("#view").css("display", "block"); //보이고
+  		$("#wform").css("display", "none"); //감추고
+  	}
+  	
+  	function goInsert() {
+  		//낱개를 가져오는 경우
+  		//var title =	$("#title").val();
+  		//var content = $("#content").val();
+  		//var writer = $("writer").val();
+  		
+  		//한번에 가져오면 훨씬 편하다 
+  		var fData = $("#frm").serialize();
+  		//alert(fData); --> title=111&content=222&writer=333
+  		
+  		$.ajax({
+  			url: "boardInsert.do",
+  			type: "post",
+  			data: fData,
+  			success: loadList,
+  			error: function(){ alert("error"); }
+  		});
+  		
+  		//폼 초기화
+  		$("#title").val("");
+  		$("#content").val("");
+  		$("writer").val("");
   	}
   </script>
 </head>
@@ -75,24 +102,24 @@
     <div class="panel-heading">Board</div>
     <div class="panel-body" id="view">Panel Content</div>
     <div class="panel-body" id="wform" style="display: none">
-    	<form action="boardInsert.do" method="post">
+    	<form id="frm">
 	    	<table class="table">
 	    		<tr>
 	    			<td>제목</td>
-	    			<td><input type="text" name="title" class="form-control"/></td>
+	    			<td><input type="text" id="title" name="title" class="form-control"/></td>
 	    		</tr>
 	    		<tr>
 	    			<td>내용</td>
 	    			<!-- textarea는 하나에서 닫기까지 하면 구성 이상해짐. 앞 뒤로 닫아줘야 한다. -->
-	    			<td><textarea rows="7" name="content" class="form-control"></textarea></td>
+	    			<td><textarea rows="7" id="content" name="content" class="form-control"></textarea></td>
 	    		</tr>
 	    		<tr>
 	    			<td>작성자</td>
-	    			<td><input type="text" name="writer" class="form-control"/></td>
+	    			<td><input type="text" id="writer" name="writer" class="form-control"/></td>
 	    		</tr>
 	    		<tr>
 	    			<td colspan="2" align="center">
-	    				<button type="submit" class="btn btn-success btn-sm">등록</button>
+	    				<button type="button" class="btn btn-success btn-sm" onclick="goInsert()">등록</button>
 	    				<button type="reset" class="btn btn-warning btn-sm">취소</button>
 	    				<button type="button" class="btn btn-info btn-sm" onclick="goList()">리스트</button>
 	    			</td>

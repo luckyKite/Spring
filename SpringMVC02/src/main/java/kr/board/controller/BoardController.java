@@ -33,5 +33,10 @@ public class BoardController {
 		List<Board> list = boardMapper.getLists();
 		return list; //JSON 데이터 형식으로 변환(api)해서 리턴(응답)하겠다
 	}
+	
+	@RequestMapping("/boardInsert.do")
+	public @ResponseBody void boardInsert(Board vo) {
+		boardMapper.boardInsert(vo); //등록 성공
+	}
 
 }
