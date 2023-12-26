@@ -40,11 +40,21 @@
   		$.each(data, function(index,obj) {
   			listHtml+="<tr>";
   	  		listHtml+="<td>"+obj.idx+"</td>";
-  	  		listHtml+="<td>"+obj.title+"</td>";
+  	  		listHtml+="<td><a href='javascript:goContent("+obj.idx+")'>"+obj.title+"</a></td>";
   	  		listHtml+="<td>"+obj.writer+"</td>";
   	  		listHtml+="<td>"+obj.indate+"</td>";
   	  		listHtml+="<td>"+obj.count+"</td>";
   	  		listHtml+="</tr>";
+  	  		
+	  	  	listHtml+="<tr id='c"+obj.idx+"' style='display:none'>";
+	  	  	listHtml+="<td>내용</td>";
+	  	 	listHtml+="<td colspan='4'>";
+	  	 	listHtml+="<textarea readonly rows='7' class='form-control'>"+obj.content+"</textarea>";
+	  	 	listHtml+="<br/>";
+	  	 	listHtml+="<button class='btn btn-success btn-sm'>수정화면</button>&nbsp;";
+	  	 	listHtml+="<button class='btn btn-warning btn-sm' onclick='goDelete("+obj.idx+")'>삭제</button>";
+	  	 	listHtml+="</td>";
+	  		listHtml+="</tr>";
   		}); 
   		
   		listHtml+="<tr>";
@@ -55,8 +65,8 @@
   		listHtml+="</table>";
   		$("#view").html(listHtml);
   		
-  		$("#view").css("display", "none"); //감추고
-  		$("#wform").css("display", "block"); //보이고
+  		$("#view").css("display", "block"); //보이고
+  		$("#wform").css("display", "none"); //감추고
   	}
   	
   	function goForm() {
@@ -65,8 +75,8 @@
   	}
   	
   	function goList() {
-  		$("#view").css("display", "block"); //감추고
-  		$("#wform").css("display", "none"); //보이고
+  		$("#view").css("display", "block"); //보이고
+  		$("#wform").css("display", "none"); //감추고
   	}
   	
   	function goInsert() {
@@ -83,6 +93,30 @@
   			url: "boardInsert.do",
   			type: "post",
   			data: fData,
+  			success: loadList,
+  			error: function(){ alert("error"); }
+  		});
+  		
+  		//폼 초기화
+  		//$("#title").val("");
+  		//$("#content").val("");
+  		//$("writer").val("");
+  		$("#fclear").trigger("click");
+  	}
+  	
+  	function goContent(idx) { //idx=11, 10, 9, ...
+  		if($("#c"+idx).css("display")=="none") { //안보이는 상태이면
+  			$("#c"+idx).css("display", "table-row"); //보이게
+  		} else {
+  			$("#c"+idx).css("display", "none"); //안보이게 감춘다
+  		}
+  	}
+  	
+  	function goDelete(idx) {
+  		$.ajax({
+  			url: "boardDelete.do",
+  			type: "get",
+  			data: {"idx":idx},
   			success: loadList,
   			error: function(){ alert("error"); }
   		});
@@ -115,7 +149,7 @@
 	    		<tr>
 	    			<td colspan="2" align="center">
 	    				<button type="button" class="btn btn-success btn-sm" onclick="goInsert()">등록</button>
-	    				<button type="reset" class="btn btn-warning btn-sm">취소</button>
+	    				<button type="reset" class="btn btn-warning btn-sm" id="fclear">취소</button>
 	    				<button type="button" class="btn btn-info btn-sm" onclick="goList()">리스트</button>
 	    			</td>
 	    		</tr>

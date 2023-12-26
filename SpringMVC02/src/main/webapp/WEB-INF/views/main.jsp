@@ -49,8 +49,11 @@
 	  	  	listHtml+="<tr id='c"+obj.idx+"' style='display:none'>";
 	  	  	listHtml+="<td>내용</td>";
 	  	 	listHtml+="<td colspan='4'>";
-	  	 	listHtml+="<textarea rows='7' class='form-control'>"+obj.content+"</textarea>";
-	  		listHtml+="</td>";
+	  	 	listHtml+="<textarea readonly rows='7' class='form-control'>"+obj.content+"</textarea>";
+	  	 	listHtml+="<br/>";
+	  	 	listHtml+="<button class='btn btn-success btn-sm'>수정화면</button>&nbsp;";
+	  	 	listHtml+="<button class='btn btn-warning btn-sm' onclick='goDelete("+obj.idx+")'>삭제</button>";
+	  	 	listHtml+="</td>";
 	  		listHtml+="</tr>";
   		}); 
   		
@@ -102,8 +105,21 @@
   	}
   	
   	function goContent(idx) { //idx=11, 10, 9, ...
-  		$("#c"+idx).css("display", "table-row"); //보이게
-  		
+  		if($("#c"+idx).css("display")=="none") { //안보이는 상태이면
+  			$("#c"+idx).css("display", "table-row"); //보이게
+  		} else {
+  			$("#c"+idx).css("display", "none"); //안보이게 감춘다
+  		}
+  	}
+  	
+  	function goDelete(idx) {
+  		$.ajax({
+  			url: "boardDelete.do",
+  			type: "get",
+  			data: {"idx":idx},
+  			success: loadList,
+  			error: function(){ alert("error"); }
+  		});
   	}
   </script>
 </head>
