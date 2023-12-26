@@ -40,7 +40,7 @@
   		$.each(data, function(index,obj) {
   			listHtml+="<tr>";
   	  		listHtml+="<td>"+obj.idx+"</td>";
-  	  		listHtml+="<td><a href='javascript:goContent("+obj.idx+")'>"+obj.title+"</a></td>";
+  	  		listHtml+="<td id='t"+obj.idx+"'><a href='javascript:goContent("+obj.idx+")'>"+obj.title+"</a></td>";
   	  		listHtml+="<td>"+obj.writer+"</td>";
   	  		listHtml+="<td>"+obj.indate+"</td>";
   	  		listHtml+="<td>"+obj.count+"</td>";
@@ -49,9 +49,9 @@
 	  	  	listHtml+="<tr id='c"+obj.idx+"' style='display:none'>";
 	  	  	listHtml+="<td>내용</td>";
 	  	 	listHtml+="<td colspan='4'>";
-	  	 	listHtml+="<textarea readonly rows='7' class='form-control'>"+obj.content+"</textarea>";
+	  	 	listHtml+="<textarea id='ta"+obj.idx+"' readonly rows='7' class='form-control'>"+obj.content+"</textarea>";
 	  	 	listHtml+="<br/>";
-	  	 	listHtml+="<button class='btn btn-success btn-sm'>수정화면</button>&nbsp;";
+	  	 	listHtml+="<button class='btn btn-success btn-sm' onclick='goUpdateForm("+obj.idx+")'>수정화면</button>&nbsp;";
 	  	 	listHtml+="<button class='btn btn-warning btn-sm' onclick='goDelete("+obj.idx+")'>삭제</button>";
 	  	 	listHtml+="</td>";
 	  		listHtml+="</tr>";
@@ -107,6 +107,7 @@
   	function goContent(idx) { //idx=11, 10, 9, ...
   		if($("#c"+idx).css("display")=="none") { //안보이는 상태이면
   			$("#c"+idx).css("display", "table-row"); //보이게
+  			$("#ta"+idx).attr("readonly", true); //열릴때는 읽기전용이다
   		} else {
   			$("#c"+idx).css("display", "none"); //안보이게 감춘다
   		}
@@ -120,6 +121,14 @@
   			success: loadList,
   			error: function(){ alert("error"); }
   		});
+  	}
+  	
+  	function goUpdateForm(idx) { //idx=10, 9, 8, ...
+  		$("#ta"+idx).attr("readonly", false); //읽기만가능인 것을 false로 만든다 --> 수정가능
+  		var title = $("#t"+idx).text();
+  		var newInput = "<input type='text' class='form-control'/>";
+  		
+  		$("#t"+idx).html(newInput);
   	}
   </script>
 </head>
