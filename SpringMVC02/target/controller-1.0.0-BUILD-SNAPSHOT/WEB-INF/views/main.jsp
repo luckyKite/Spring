@@ -51,7 +51,7 @@
 	  	 	listHtml+="<td colspan='4'>";
 	  	 	listHtml+="<textarea id='ta"+obj.idx+"' readonly rows='7' class='form-control'>"+obj.content+"</textarea>";
 	  	 	listHtml+="<br/>";
-	  	 	listHtml+="<button class='btn btn-success btn-sm' onclick='goUpdateForm("+obj.idx+")'>수정화면</button>&nbsp;";
+	  	 	listHtml+="<span id='ub"+obj.idx+"'><button class='btn btn-success btn-sm' onclick='goUpdateForm("+obj.idx+")'>수정화면</button></span>&nbsp;";
 	  	 	listHtml+="<button class='btn btn-warning btn-sm' onclick='goDelete("+obj.idx+")'>삭제</button>";
 	  	 	listHtml+="</td>";
 	  		listHtml+="</tr>";
@@ -126,9 +126,24 @@
   	function goUpdateForm(idx) { //idx=10, 9, 8, ...
   		$("#ta"+idx).attr("readonly", false); //읽기만가능인 것을 false로 만든다 --> 수정가능
   		var title = $("#t"+idx).text();
-  		var newInput = "<input type='text' class='form-control'/>";
+  		var newInput = "<input type='text' id='nt"+idx+"' class='form-control' value='"+title+"'/>"; //기존 제목 가져옴
   		
-  		$("#t"+idx).html(newInput);
+  		$("#t"+idx).html(newInput); //제목부분 새로 쓸 수 있게함
+  		
+  		var newButton = "<button class='btn btn-primary btn-sm' onclick='goUpdate("+idx+")'>수정</button>"; //수정화면 들어가면 나온다
+  		$("#ub"+idx).html(newButton);
+  	}
+  	
+  	function goUpdate(idx) {
+  		var title = $("#nt"+idx).val();
+  		var content = $("ta"+idx).val();
+  		$.ajax({
+  			url: "boardUpdate.do";
+  			type: "post";
+  			data: {"idx":idx, "title":title,"content":content},
+  			success: loadList,
+  			error: function() { alert("error"); }
+  		});
   	}
   </script>
 </head>

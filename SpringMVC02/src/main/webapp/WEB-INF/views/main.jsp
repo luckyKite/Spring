@@ -126,12 +126,26 @@
   	function goUpdateForm(idx) { //idx=10, 9, 8, ...
   		$("#ta"+idx).attr("readonly", false); //읽기만가능인 것을 false로 만든다 --> 수정가능
   		var title = $("#t"+idx).text();
-  		var newInput = "<input type='text' class='form-control' value='"+title+"'/>"; //기존 제목 가져옴
+  		var newInput = "<input type='text' id='nt"+idx+"' class='form-control' value='"+title+"'/>"; //기존 제목 가져옴
   		
   		$("#t"+idx).html(newInput); //제목부분 새로 쓸 수 있게함
   		
-  		var newButton = "<button class='btn btn-primary btn-sm'>수정</button>"; //수정화면 들어가면 나온다
+  		var newButton = "<button class='btn btn-primary btn-sm' onclick='goUpdate("+idx+")'>수정</button>"; //수정화면 들어가면 나온다
   		$("#ub"+idx).html(newButton);
+  	}
+  	
+  	function goUpdate(idx) {
+  		//# 부분 빠뜨리지 않도록 한다 --> "#ta" 
+  		var title = $("#nt"+idx).val();
+  		var content = $("#ta"+idx).val();
+  		//ajax 사용할때 --> ;말고 , 로 연결함! 2번 틀렸음(주의)
+  		$.ajax({
+  			url: "boardUpdate.do",
+  			type: "post",
+  			data: {"idx":idx, "title":title,"content":content},
+  			success: loadList,
+  			error: function() { alert("error"); }
+  		});
   	}
   </script>
 </head>
