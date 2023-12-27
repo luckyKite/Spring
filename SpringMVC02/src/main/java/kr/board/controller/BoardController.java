@@ -43,5 +43,18 @@ public class BoardController {
 	public @ResponseBody void boardUpdate(Board vo) {
 		boardMapper.boardUpdate(vo);
 	}
+	
+	@RequestMapping("/boardContent.do")
+	public @ResponseBody Board boardContent(int idx) {
+		Board vo = boardMapper.boardContent(idx);
+		return vo; //vo ->JSON
+	}
+	
+	@RequestMapping("/boardCount.do")
+	public @ResponseBody Board boardCount(int idx) {
+		boardMapper.boardCount(idx); //조회수 늘려주고
+		Board vo = boardMapper.boardContent(idx); //게시물정보를 담고
+		return vo; //리턴함
+	}
 
 }
