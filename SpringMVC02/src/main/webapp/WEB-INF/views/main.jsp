@@ -20,7 +20,7 @@
   	function loadList() {
   		//서버와 통신 : 게시판 리스트 가져오기
   		$.ajax({
-  			url: "boardList.do",
+  			url: "board/all",
   			type: "get",
   			dataType: "json",
   			success: makeView, //콜백함수
@@ -42,7 +42,7 @@
   	  		listHtml+="<td>"+obj.idx+"</td>";
   	  		listHtml+="<td id='t"+obj.idx+"'><a href='javascript:goContent("+obj.idx+")'>"+obj.title+"</a></td>";
   	  		listHtml+="<td>"+obj.writer+"</td>";
-  	  		listHtml+="<td>"+obj.indate+"</td>";
+  	  		listHtml+="<td>"+obj.indate.split(' ')[0]+"</td>";
   	  		listHtml+="<td id='cnt"+obj.idx+"'>"+obj.count+"</td>";
   	  		listHtml+="</tr>";
   	  		
@@ -90,7 +90,7 @@
   		//alert(fData); --> title=111&content=222&writer=333
   		
   		$.ajax({
-  			url: "boardInsert.do",
+  			url: "board/new",
   			type: "post",
   			data: fData,
   			success: loadList,
@@ -108,9 +108,8 @@
   		if($("#c"+idx).css("display")=="none") { //안보이는 상태이면
   			//펼쳐질 때 상세보기 화면을 보여줌
   			$.ajax({
-  				url: "boardContent.do",
+  				url: "board/"+idx,
   				type: "get",
-  				data: {"idx":idx},
   				dataType: "json",
   				success: function(data) { //data= { "content": ~~ }
   					$("#ta"+idx).val(data.content);
@@ -125,9 +124,8 @@
   			
   			//닫힐때, 조회수를 1 증가시키기 위해서
   			$.ajax({
-  				url: "boardCount.do",
-  				type: "get",
-  				data: {"idx":idx},
+  				url: "board/count/"+idx,
+  				type: "put",
   				dataType: "json",
   				success: function(data) {
   					$("#cnt"+idx).text(data.count);
@@ -139,9 +137,8 @@
   	
   	function goDelete(idx) {
   		$.ajax({
-  			url: "boardDelete.do",
-  			type: "get",
-  			data: {"idx":idx},
+  			url: "board/"+idx,
+  			type: "delete",
   			success: loadList,
   			error: function(){ alert("error"); }
   		});
@@ -164,9 +161,10 @@
   		var content = $("#ta"+idx).val();
   		//ajax 사용할때 --> ;말고 , 로 연결함! 2번 틀렸음(주의)
   		$.ajax({
-  			url: "boardUpdate.do",
-  			type: "post",
-  			data: {"idx":idx, "title":title,"content":content},
+  			url: "board/update",
+  			type: "put",
+  			contentType: 'application/json;charset=utf-8', //json형식으로 보낼때 적어줘야한다
+  			data: JSON.stringify({"idx":idx, "title":title,"content":content}), //JSON 형식의 object로 전달
   			success: loadList,
   			error: function() { alert("error"); }
   		});
