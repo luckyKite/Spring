@@ -21,12 +21,12 @@
   <div class="panel panel-default">
     <div class="panel-heading">회원가입</div>
     <div class="panel-body">
-    	<form method="post" action="${contextPath}/memRegister.do">
+    	<form action="${contextPath}/memRegister.do" method="post">
     		<table class="table table-bordered" style="text-align: center; border: 1px solid #dddddd;">    		
     			<tr>
     				<td style="width: 110px; vertical-align: middle;">아이디</td>
     				<td><input id="memID" name="memID" class="form-control" type="text" maxlength="20" placeholder="아이디를 입력하세요" /></td>
-    				<td style="width: 110px;"><button class="btn btn-primary btn-sm" onclick="registerCheck()">중복확인</button></td>
+    				<td style="width: 110px;"><button type="button" class="btn btn-primary btn-sm" onclick="registerCheck();">중복확인</button></td>
     			</tr>
     			<tr>
     				<td style="width: 110px; vertical-align: middle;">비밀번호</td>
@@ -73,9 +73,54 @@
     		</table>
     	</form>
     </div>
+    
+    <!-- 다이얼로그창(모달) -->
+    <div id="myModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	
+	    <!-- Modal content-->
+	    <div id="checkType" class="modal-content panel-info">
+	      <div class="modal-header panel-heading">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">메세지 확인</h4>
+	      </div>
+	      <div class="modal-body">
+	        <p id="checkMessage"></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	
+	  </div>
+	</div>
     <div class="panel-footer">스프1탄_인프런(egg)</div>
   </div>
 </div>
 
+<script type="text/javascript">
+	function registerCheck() {
+		var memID = $("#memID").val();
+		$.ajax({
+			url: "${contextPath}/memRegisterCheck.do",
+			type: "get",
+			data: {"memID":memID}, //,가 아니고 : 로 표기함!!! thanks to 임전임
+			success: function(result) {
+				//alert(result);
+				//중복유무 출력
+				//result=1: 사용할 수 있는 아이디, 0: 사용할 수 없는 아이디
+				if(result==1) {
+					$("#checkMessage").html("사용할 수 있는 아이디입니다.");
+					$("#checkType").addClass("class", "modal-content panel-success");
+				} else {
+					$("#checkMessage").html("사용할 수 없는 아이디입니다.");
+					$("#checkType").addClass("class", "modal-content panel-warning");
+				}
+				$("#myModal").modal("show"); 
+			},
+			error: function() { alert("error"); }
+		});
+	}
+</script>
 </body>
 </html>
