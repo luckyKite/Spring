@@ -19,22 +19,33 @@
 		$.ajax({
 			url: "${contextPath}/memRegisterCheck.do",
 			type: "get",
-			data: {"memID", memID},
+			data: {"memID":memID}, //,가 아니고 : 로 표기함!!! thanks to 임전임
 			success: function(result) {
 				//alert(result);
 				//중복유무 출력
 				//result=1: 사용할 수 있는 아이디, 0: 사용할 수 없는 아이디
 				if(result==1) {
 					$("#checkMessage").html("사용할 수 있는 아이디입니다.");
-					$("#checkType").att("class", "modal-content panel-success");
+					$("#checkType").addClass("class", "modal-content panel-success");
 				} else {
 					$("#checkMessage").html("사용할 수 없는 아이디입니다.");
-					$("#checkType").att("class", "modal-content panel-warning");
+					$("#checkType").addClass("class", "modal-content panel-warning");
 				}
 				$("#myModal").modal("show"); 
 			},
 			error: function() { alert("error"); }
 		});
+	}
+	
+	function passwordCheck() {
+		var memPassword1 = $("#memPassword1").val();
+		var memPassword2 = $("#memPassword2").val();
+		if(memPassword1 != memPassword2) {
+			$("#passMessage").html("비밀번호가 서로 일치하지 않습니다.");
+		} else {
+			$("#passMessage").html("");
+			$("#memPassword").val(memPassword1);
+		}	
 	}
 </script>
 </head>
@@ -47,11 +58,12 @@
     <div class="panel-heading">회원가입</div>
     <div class="panel-body">
     	<form action="${contextPath}/memRegister.do" method="post">
+    	<input type="hidden" id="memPassword" name="memPassword" value="" />
     		<table class="table table-bordered" style="text-align: center; border: 1px solid #dddddd;">    		
     			<tr>
     				<td style="width: 110px; vertical-align: middle;">아이디</td>
     				<td><input id="memID" name="memID" class="form-control" type="text" maxlength="20" placeholder="아이디를 입력하세요" /></td>
-    				<td style="width: 110px;"><button type="button" class="btn btn-primary btn-sm" onclick="registerCheck()">중복확인</button></td>
+    				<td style="width: 110px;"><button type="button" class="btn btn-primary btn-sm" onclick="registerCheck();">중복확인</button></td>
     			</tr>
     			<tr>
     				<td style="width: 110px; vertical-align: middle;">비밀번호</td>
@@ -92,7 +104,7 @@
     			</tr>
     			<tr>
     				<td colspan="3" style="text-align: left;">
-    					<input type="submit" class="btn btn-primary btn-sm pull-right" value="등록"/>
+    					<span id="passMessage" style="color: red" /><input type="submit" class="btn btn-primary btn-sm pull-right" value="등록"/>
     				</td>
     			</tr>
     		</table>

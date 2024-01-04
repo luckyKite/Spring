@@ -1,10 +1,13 @@
 package kr.board.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.board.entity.Member;
 import kr.board.mapper.MemberMapper;
@@ -17,7 +20,7 @@ public class MemberController {
 	
 	@RequestMapping("/memJoin.do")
 	public String memJoin() {
-		return "member/join";
+		return "member/join"; //join.jsp
 	}
 	
 	@RequestMapping("/memRegisterCheck.do")
@@ -27,5 +30,37 @@ public class MemberController {
 			return 0; //이미 존재하는 회원, 입력 불가
 		}
 		return 1; //사용가능한 아이디
+	}
+	
+	//회원가입 처리
+	@RequestMapping("/memRegister.do")
+	public String memRegister(Member m, RedirectAttributes rttr, HttpSession session) {
+		if(m.getMemID()==null || m.getMemID().equals("") || 
+		m.getMemPassword()==null || m.getMemPassword().equals("") ||
+		m.getMemName()==null || m.getMemName().equals("") ||
+		m.getMemAge()==0 || 
+		m.getMemGender()==null || m.getMemGender().equals("") ||
+		m.getMemEmail()==null || m.getMemEmail().equals("")) {
+			//누락메세지 가지고 가기 => 객체바인딩(Model, HttpServletRequest, HttpSession)
+			rttr.addAttribute("msgType", "누락 메세지");
+			rttr.addAttribute("msg", "모든 내용을 입력하세요.");
+			return "redirect:/memJoin.do";  //${msgType}, ${msg}
+		}
+		m.setMemProfile(""); //사진 이미지는 없다는 의미 ""
+		
+		//회원을 테이블에 저장하기
+		int result = memberMapper.register(m);
+		if(result==1) { //회원가입 성공 메세지
+			rttr.addFlashAttribute("msgType", "성공 메세지");
+			rttr.addFlashAttribute("msg", "회원가입에 성공했습니다!");
+			
+			//회원가입이 성공하면 => 로그인 처리하기
+			session.setAttribute("mvo", m); //${!empty mvo}
+			return "redirect:/";
+		} else {
+			rttr.addFlashAttribute("msgType", "실패 메세지");
+			rttr.addFlashAttribute("msg;", "이미 존재하는 회원입니다.");
+			return "redirect:/memJoin.do";
+		}
 	}
 }

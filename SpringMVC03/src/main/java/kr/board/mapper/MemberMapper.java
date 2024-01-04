@@ -11,4 +11,5 @@ import kr.board.entity.Member;
 @Mapper //MyBatis API
 public interface MemberMapper {
 	public Member registerCheck(String memID);
+	public int register(Member m); //회원등록(성공1. 실패0)
 }
