@@ -14,6 +14,15 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   
 <script type="text/javascript">
+	//msgType이 empty가 아닌 경우, 메세지 모달 출력
+	$(document).ready(function(){
+		if(${!empty msgType}) {
+			$("#messageType").attr("class", "modal-content panel-warning");
+			$("#myMessage").modal("show"); 
+		}
+	});
+
+	//아이디 중복체크
 	function registerCheck() {
 		var memID = $("#memID").val();
 		$.ajax({
@@ -26,10 +35,10 @@
 				//result=1: 사용할 수 있는 아이디, 0: 사용할 수 없는 아이디
 				if(result==1) {
 					$("#checkMessage").html("사용할 수 있는 아이디입니다.");
-					$("#checkType").addClass("class", "modal-content panel-success");
+					$("#checkType").attr("class", "modal-content panel-success");
 				} else {
 					$("#checkMessage").html("사용할 수 없는 아이디입니다.");
-					$("#checkType").addClass("class", "modal-content panel-warning");
+					$("#checkType").attr("class", "modal-content panel-warning");
 				}
 				$("#myModal").modal("show"); 
 			},
@@ -37,6 +46,7 @@
 		});
 	}
 	
+	//비밀번호 일치여부 확인
 	function passwordCheck() {
 		var memPassword1 = $("#memPassword1").val();
 		var memPassword2 = $("#memPassword2").val();
@@ -46,6 +56,16 @@
 			$("#passMessage").html("");
 			$("#memPassword").val(memPassword1);
 		}	
+	}
+	
+	//나이부분을 체크하고
+	function goInsert() {
+		var memAge = $("#memAge").val();
+		if(memAge==null || memAge=="" || memAge==0) {
+			alert("나이를 입력하세요.");
+			return false;
+		}
+		document.frm.submit(); //전송
 	}
 </script>
 </head>
@@ -57,7 +77,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">회원가입</div>
     <div class="panel-body">
-    	<form action="${contextPath}/memRegister.do" method="post">
+    	<form name="frm" action="${contextPath}/memRegister.do" method="post">
     	<input type="hidden" id="memPassword" name="memPassword" value="" />
     		<table class="table table-bordered" style="text-align: center; border: 1px solid #dddddd;">    		
     			<tr>
@@ -79,7 +99,7 @@
     			</tr>
     			<tr>
     				<td style="width: 110px; vertical-align: middle;">나이</td>
-    				<td colspan="2"><input id="memAge" name="memAge" class="form-control" type="text" maxlength="20" placeholder="나이를 입력하세요" /></td>
+    				<td colspan="2"><input id="memAge" name="memAge" class="form-control" type="number" maxlength="20" placeholder="나이를 입력하세요" /></td>
     			</tr>
     			<tr>
     				<td style="width: 110px; vertical-align: middle;">성별</td>
@@ -104,7 +124,8 @@
     			</tr>
     			<tr>
     				<td colspan="3" style="text-align: left;">
-    					<span id="passMessage" style="color: red" /><input type="submit" class="btn btn-primary btn-sm pull-right" value="등록"/>
+    					<!-- span 부분을 <span ~~/> 형식으로 두면, 폼을 작성하는 과정에서 등록 버튼이 안보이는 문제가 발생한다. <span></span>으로 작성해야 한다.  -->
+    					<span id="passMessage" style="color: red"></span><input type="button" class="btn btn-primary btn-sm pull-right" value="등록" onclick="goInsert()"/>
     				</td>
     			</tr>
     		</table>
@@ -113,8 +134,7 @@
     
     <!-- 다이얼로그창(모달) -->
     <div id="myModal" class="modal fade" role="dialog">
-	  <div class="modal-dialog">
-	
+	  <div class="modal-dialog">	
 	    <!-- Modal content-->
 	    <div id="checkType" class="modal-content panel-info">
 	      <div class="modal-header panel-heading">
@@ -128,7 +148,26 @@
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	      </div>
 	    </div>
-	
+	  </div>
+	</div>
+	<!-- 실패 메세지를 출력 -->
+	<!-- 다이얼로그창(모달) -->
+	<!-- js는 오타를 알려주지않아요... 잘 확인할 것!!! 오류를 함께 찾아준 임전임에게 감사를 전하며...ㅜㅜ -->
+    <div id="myMessage" class="modal fade" role="dialog">
+	  <div class="modal-dialog">	
+	    <!-- Modal content-->
+	    <div id="messageType" class="modal-content panel-info">
+	      <div class="modal-header panel-heading">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">${msgType}</h4>
+	      </div>
+	      <div class="modal-body">
+	        <p>${msg}</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
 	  </div>
 	</div>
     <div class="panel-footer">스프1탄_인프런(egg)</div>

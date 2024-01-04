@@ -6,9 +6,9 @@
 	</select>
 	
 	<insert id="register" parameterType="kr.board.entity.Member">
-		insert into 
-		mem_tbl(memID, memPassword, memAge, memGender, memEmail, memProfile)
-		values(#{memID}, #{memPassword}, #{memAge}, #{memGender}, #{memEmail}, #{memProfile})
+		insert into
+		mem_tbl(memID, memPassword, memName, memAge, memGender, memEmail, memProfile)
+		values(#{memID}, #{memPassword}, #{memName}, #{memAge}, #{memGender}, #{memEmail}, #{memProfile})
 	
 	</insert>
 </mapper>
