@@ -29,7 +29,7 @@
 </div>
 	<!-- 성공 메세지를 출력 -->
 	<!-- 다이얼로그창(모달) -->
-    <div id=""myMessage class="modal fade" role="dialog">
+    <div id="myMessage" class="modal fade" role="dialog">
 	  <div class="modal-dialog">	
 	    <!-- Modal content-->
 	    <div id="messageType" class="modal-content panel-info">
