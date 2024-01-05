@@ -12,6 +12,15 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+	//메세지 모달 출력
+	$(document).ready(function(){
+		if(${!empty msgType}) {
+			$("#messageType").attr("class", "modal-content panel-warning");
+			$("#myMessage").modal("show"); 
+		}
+	});
+  </script>
 </head>
 <body>
 <div class="container">
@@ -25,7 +34,6 @@
     			<tr>
     				<td style="width: 110px; vertical-align: middle;">아이디</td>
     				<td><input id="memID" name="memID" class="form-control" type="text" maxlength="20" placeholder="아이디를 입력하세요" /></td>
-    				<td style="width: 110px;"><button type="button" class="btn btn-primary btn-sm" onclick="registerCheck();">중복확인</button></td>
     			</tr>
     			<tr>
     				<td style="width: 110px; vertical-align: middle;">비밀번호</td>
@@ -33,13 +41,30 @@
     			</tr>		
     			<tr>
     				<td colspan="2" style="text-align: left;">
-    					<!-- span 부분을 <span ~~/> 형식으로 두면, 폼을 작성하는 과정에서 등록 버튼이 안보이는 문제가 발생한다. <span></span>으로 작성해야 한다.  -->
-    					<span id="submit" style="color: red"></span><input type="button" class="btn btn-primary btn-sm pull-right" value="로그인" />
+    					<input type="submit" class="btn btn-primary btn-sm pull-right" value="로그인" />
     				</td>
     			</tr>
     		</table>
     	</form>
     </div>
+    <!-- 실패메세지 -->
+    <div id="myMessage" class="modal fade" role="dialog">
+	  <div class="modal-dialog">	
+	    <!-- Modal content-->
+	    <div id="messageType" class="modal-content panel-info">
+	      <div class="modal-header panel-heading">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">${msgType}</h4>
+	      </div>
+	      <div class="modal-body">
+	        <p>${msg}</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
     <div class="panel-footer">스프1탄_인프런(egg)</div>
   </div>
 </div>

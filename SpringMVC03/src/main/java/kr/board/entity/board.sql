@@ -28,3 +28,7 @@ memEmail varchar(50),
 memProfile varchar(50),
 primary key(memIdx)
 );
+
+select * from mem_tbl;
+
+delete from mem_tbl;
