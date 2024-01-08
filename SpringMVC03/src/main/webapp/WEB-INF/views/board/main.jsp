@@ -50,9 +50,18 @@
 	  	  	listHtml+="<td>내용</td>";
 	  	 	listHtml+="<td colspan='4'>";
 	  	 	listHtml+="<textarea id='ta"+obj.idx+"' readonly rows='7' class='form-control'></textarea>";
-	  	 	listHtml+="<br/>";
-	  	 	listHtml+="<span id='ub"+obj.idx+"'><button class='btn btn-success btn-sm' onclick='goUpdateForm("+obj.idx+")'>수정화면</button></span>&nbsp;";
-	  	 	listHtml+="<button class='btn btn-warning btn-sm' onclick='goDelete("+obj.idx+")'>삭제</button>";
+	  	 	
+	  	 	//본인의 글만 수정, 삭제할 수 있도록 함
+	  	 	if("${mvo.memID}"==obj.memID) { //세션의 로그인한 아이디와 obj의 memID와 일치하면 => 자신의 글인 경우
+		  	 	listHtml+="<br/>";
+		  	 	listHtml+="<span id='ub"+obj.idx+"'><button class='btn btn-success btn-sm' onclick='goUpdateForm("+obj.idx+")'>수정화면</button></span>&nbsp;";
+		  	 	listHtml+="<button class='btn btn-warning btn-sm' onclick='goDelete("+obj.idx+")'>삭제</button>";
+	  	 	} else { //자신의 글이 아니면 버튼이 눌리지 않도록 함(버튼 모양은 존재함)
+	  	 		listHtml+="<br/>";
+		  	 	listHtml+="<span id='ub"+obj.idx+"'><button disabled class='btn btn-success btn-sm' onclick='goUpdateForm("+obj.idx+")'>수정화면</button></span>&nbsp;";
+		  	 	listHtml+="<button disabled class='btn btn-warning btn-sm' onclick='goDelete("+obj.idx+")'>삭제</button>";
+	  	 	}
+	  	 	
 	  	 	listHtml+="</td>";
 	  		listHtml+="</tr>";
   		}); 
