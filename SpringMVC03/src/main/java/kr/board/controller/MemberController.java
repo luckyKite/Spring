@@ -1,8 +1,11 @@
 package kr.board.controller;
 
+import java.io.File;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -174,13 +177,39 @@ public class MemberController {
 		String savePath = request.getRealPath("resources/upload");
 		
 		try {
+			//이미지 업로드
 			multi = new MultipartRequest(request, savePath, fileMaxSize, "UTF-8", new DefaultFileRenamePolicy());
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 			rttr.addFlashAttribute("msgType", "실패 메세지");
 			rttr.addFlashAttribute("msg", "파일의 크기는 10MB를 넘을 수 없습니다.");
 			return "redirect:/memImageForm.do";
 		}
+		
+		//데이터베이스 테이블에 회원이미지를 업데이트
+		String memID = request.getParameter("memID");
+		String newProfile = "";
+		File file = multi.getFile("memProfile");
+		if(file!=null) { //업로드가 된 상태(.png, .jpg, .gif)
+			//이미 파일 여부를 체크 -> 이미지 파일이 아니면 삭제
+			String ext = file.getName().substring(file.getName().lastIndexOf(".")+1);
+			ext = ext.toUpperCase();
+			if(ext.equals("PNG") || ext.equals("GIF") || ext.equals("JPG")) {
+				//새로 업로드 된 이미지(new), 현재 DB에 있는 이미지(old)
+				String oldProfile = memberMapper.getMember(memID).getMemProfile();
+				File oldFile = new File(savePath+"/"+oldProfile);
+				
+			} else { //이미지 파일이 아니면
+				if(file.exists()) {
+					file.delete();
+				}
+				rttr.addFlashAttribute("msgType", "실패 메세지");
+				rttr.addFlashAttribute("msg", "이미지 파일만 업로드 가능합니다.");
+				return "redirect:/memImageForm.do";
+			}
+		}
+		//새로운 이미지를 테이블에 업데이트
 		
 		return "";
 	}
