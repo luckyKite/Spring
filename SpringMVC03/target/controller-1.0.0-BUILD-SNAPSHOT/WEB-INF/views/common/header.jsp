@@ -16,7 +16,6 @@
       <ul class="nav navbar-nav">
        	<li class="active"><a href="${contextPath}/">Home</a></li>
        	<li><a href="boardMain.do">게시판</a></li>
-        <li><a href="#">Page 2</a></li>     
       </ul>     
       <!-- 로그인이 안됐을 때 -->
       <c:if test="${empty mvo }">
@@ -29,7 +28,7 @@
       <c:if test="${!empty mvo }">
 	     <ul class="nav navbar-nav navbar-right">       
 	            <li><a href="${contextPath}/memUpdateForm.do"><span class="glyphicon glyphicon-wrench"></span>회원정보수정</a></li>
-	            <li><a href="#"><span class="glyphicon glyphicon-picture"></span>프로필사진등록</a></li>
+	            <li><a href="${contextPath}/memImageForm.do"><span class="glyphicon glyphicon-picture"></span>프로필사진등록</a></li>
 	            <li><a href="${contextPath}/memLogout.do"><span class="glyphicon glyphicon-log-out"></span>로그아웃</a></li>
 	      </ul>
       </c:if>

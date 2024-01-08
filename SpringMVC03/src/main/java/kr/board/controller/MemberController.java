@@ -152,6 +152,12 @@ public class MemberController {
 			rttr.addFlashAttribute("msgType", "실패 메세지");
 			rttr.addFlashAttribute("msg", "회원정보수정에 실패했습니다.");
 			return "redirect:/memUpdateForm.do";
-		}
+		}		
+	}
+	
+	//회원의 사진등록 화면
+	@RequestMapping("/memImageForm.do")
+	public String memImageForm() {
+		return "member/memImageForm"; //memImageForm.jsp
 	}
 }
