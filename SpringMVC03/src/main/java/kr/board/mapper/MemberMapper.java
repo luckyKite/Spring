@@ -15,4 +15,5 @@ public interface MemberMapper {
 	public Member memLogin(Member mvo); //로그인 체크
 	public int memUpdate(Member mvo); //수정하기
 	public Member getMember(String memID);
+	public void memProfileUpdate(Member mvo);
 }
