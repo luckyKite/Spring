@@ -57,11 +57,14 @@
 	  		listHtml+="</tr>";
   		}); 
   		
-  		listHtml+="<tr>";
-  		listHtml+="<td colspan='5'>";
-  		listHtml+="<button class='btn btn-primary btn-sm' onclick='goForm()'>글쓰기</button>"
-  		listHtml+="</td>"
-  		listHtml+="</tr>"
+  		//로그인을 해야 보이는 부분
+  		if(${!empty mvo}) {
+	  		listHtml+="<tr>";
+	  		listHtml+="<td colspan='5'>";
+	  		listHtml+="<button class='btn btn-primary btn-sm' onclick='goForm()'>글쓰기</button>"
+	  		listHtml+="</td>"
+	  		listHtml+="</tr>"
+  		}
   		listHtml+="</table>";
   		$("#view").html(listHtml);
   		
@@ -174,12 +177,13 @@
 <body>
 <div class="container">
 <jsp:include page="../common/header.jsp"/>
-  <h2>Spring MVC03</h2>
+  <h3>회원 게시판</h3>
   <div class="panel panel-default">
     <div class="panel-heading">Board</div>
     <div class="panel-body" id="view">Panel Content</div>
     <div class="panel-body" id="wform" style="display: none">
     	<form id="frm">
+    	<input type="hidden" name="memID" id="memID" value="${mvo.memID}" />
 	    	<table class="table">
 	    		<tr>
 	    			<td>제목</td>
@@ -192,7 +196,7 @@
 	    		</tr>
 	    		<tr>
 	    			<td>작성자</td>
-	    			<td><input type="text" id="writer" name="writer" class="form-control"/></td>
+	    			<td><input type="text" id="writer" name="writer" class="form-control" value="${mvo.memName}" readonly="readonly" /></td>
 	    		</tr>
 	    		<tr>
 	    			<td colspan="2" align="center">
