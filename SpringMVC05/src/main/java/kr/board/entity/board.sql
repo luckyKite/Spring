@@ -38,4 +38,6 @@ select * from myboard order by idx desc;
 
 select * from mem_tbl;
 
+select * from mem_auth;
+
 delete from mem_tbl;
