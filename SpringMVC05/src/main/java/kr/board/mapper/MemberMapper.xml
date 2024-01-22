@@ -7,8 +7,9 @@
 	
 	<insert id="register" parameterType="kr.board.entity.Member">
 		insert into
-		mem_tbl(memID, memPassword, memName, memAge, memGender, memEmail, memProfile)
-		values(#{memID}, #{memPassword}, #{memName}, #{memAge}, #{memGender}, #{memEmail}, #{memProfile})
+		mem_stbl(memIdx, memID, memPassword, memName, memAge, memGender, memEmail, memProfile)
+		values((select IFNULL(MAX(memId)+1,1) from mem_stbl mem), 
+		#{memID}, #{memPassword}, #{memName}, #{memAge}, #{memGender}, #{memEmail}, #{memProfile})
 	</insert>
 	
 	<select id="memLogin" parameterType="kr.board.entity.Member" resultType="kr.board.entity.Member">
@@ -22,6 +23,7 @@
 		where memID=#{memID}
 	</update>
 	
+	<!-- 수정(회원,권한 join) -->
 	<select id="getMember" resultType="kr.board.entity.Member">
 		select * from mem_tbl where memID=#{memID}
 	</select>
@@ -29,4 +31,8 @@
 	<update id="memProfileUpdate" parameterType="kr.board.entity.Member">
 		update mem_tbl set memProfile=#{memProfile} where memID=#{memID}
 	</update>
+	
+	<insert id="authInsert" parameterType="kr.board.entity.AuthVO">
+	 	insert into mem_auth(memID, auth) values(#{memID}, #{auth})
+	</insert>
 </mapper>
