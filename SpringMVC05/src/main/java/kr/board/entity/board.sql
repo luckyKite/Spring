@@ -15,7 +15,7 @@ drop table myboard;
 create table mem_stbl(
 	memIdx int not null, -- 자동증가X
 	memID varchar(20) not null, 
-	memPassword varchar(20) not null,
+	memPassword varchar(200) not null,
 	memName varchar(20) not null,
 	memAge int,
 	memGender varchar(20),
@@ -36,8 +36,12 @@ create table mem_auth(
 select * from myboard order by idx desc;
 
 
-select * from mem_tbl;
+select * from mem_stbl;
 
 select * from mem_auth;
 
-delete from mem_tbl;
+drop table mem_tbl;
+
+drop table mem_auth;
+
+drop table mem_stbl;

@@ -54,7 +54,7 @@ public class MemberController {
 		memPassword1==null || memPassword1.equals("") ||
 		memPassword2==null || memPassword2.equals("") ||
 		m.getMemName()==null || m.getMemName().equals("") ||
-		m.getMemAge()==0 || 
+		m.getMemAge()==0 || m.getAuthList().size()==0 ||
 		m.getMemGender()==null || m.getMemGender().equals("") ||
 		m.getMemEmail()==null || m.getMemEmail().equals("")) {
 			//누락메세지 가지고 가기 => 객체바인딩(Model, HttpServletRequest, HttpSession)
@@ -96,7 +96,8 @@ public class MemberController {
 			//회원가입이 성공하면 => 로그인 처리하기
 			//getMember() -> 회원정보 + 권한정보
 			Member mvo = memberMapper.getMember(m.getMemID());
-			session.setAttribute("mvo", mvo); //${!empty mvo}
+			System.out.println(mvo);
+			session.setAttribute("mvo", m); //${!empty mvo}
 			return "redirect:/";
 		} else {
 			rttr.addFlashAttribute("msgType", "실패 메세지");
