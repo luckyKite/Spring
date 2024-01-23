@@ -73,7 +73,7 @@
 
 <div class="container">
 <jsp:include page="../common/header.jsp" /> 
-  <h2>SpringMVC03</h2>
+  <h2>SpringMVC05</h2>
   <div class="panel panel-default">
     <div class="panel-heading">회원가입</div>
     <div class="panel-body">
