@@ -150,7 +150,7 @@ public class MemberController {
 		return "member/memUpdateForm";
 	}
 	
-	//회원정보 수정화면양식에 회원정보 수정을 작성하고 에러찾고 있었음... 제대로 작성했는지 확인을...
+	
 	//회원정보수정
 	@RequestMapping("/memUpdate.do")
 	public String memUpdate(Member m, RedirectAttributes rttr,
@@ -159,7 +159,7 @@ public class MemberController {
 		memPassword1==null || memPassword1.equals("") ||
 		memPassword2==null || memPassword2.equals("") ||
 		m.getMemName()==null || m.getMemName().equals("") ||
-		m.getMemAge()==0 || 
+		m.getMemAge()==0 || m.getAuthList().size()==0 ||
 		m.getMemGender()==null || m.getMemGender().equals("") ||
 		m.getMemEmail()==null || m.getMemEmail().equals("")) {
 		//누락메세지 가지고 가기 => 객체바인딩(Model, HttpServletRequest, HttpSession)
@@ -175,8 +175,26 @@ public class MemberController {
 		}
 		
 		//회원 수정 저장하기
+		//추가: 비밀번호 암호화
+		String encyptPw = pwEncoder.encode(m.getMemPassword()); 
+		m.setMemPassword(encyptPw);
+		
 		int result = memberMapper.memUpdate(m);
 		if(result==1) { //수정 성공 메세지
+			//기존 권한을 삭제하고
+			memberMapper.authDelete(m.getMemID());
+			
+			//새로운 권한을 추가하기
+			List<AuthVO> list = m.getAuthList();							
+			for(AuthVO authVO : list) {
+				if(authVO.getAuth()!=null) {
+					AuthVO saveVO = new AuthVO();
+					saveVO.setMemID(m.getMemID());
+					saveVO.setAuth(authVO.getAuth());
+					memberMapper.authInsert(saveVO);
+				}
+			}
+			
 			rttr.addFlashAttribute("msgType", "성공 메세지");
 			rttr.addFlashAttribute("msg", "회원정보 수정에 성공했습니다!");
 			

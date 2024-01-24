@@ -70,7 +70,7 @@
 <body>
 <div class="container">
 <jsp:include page="../common/header.jsp" />
-	<h2>SpringMVC03</h2>
+	<h2>SpringMVC05</h2>
 	<div class="panel panel-default">
 		<div class="panel-heading">회원정보수정 양식</div>
 		<div class="panel-body">
@@ -133,6 +133,34 @@
 							class="form-control" type="email" maxlength="20"
 							placeholder="이메일을 입력하세요" value="${mvo.memEmail}" /></td>
 					</tr>
+					<!-- 선택한 권한 출력하기 -->
+					<tr>
+						<td style="width:110px; vertical-align: middle;">사용자 권한</td>
+						<td colspan="2">
+							<input type="checkbox" name="authList[0].auth" value="ROLE_USER" 
+								<c:forEach var="authVO" items="${mvo.authList}">
+									<c:if test="${authVO.auth eq 'ROLE_USER'}">
+										checked 
+									</c:if>
+								</c:forEach>
+							/> ROLE_USER
+							<input type="checkbox" name="authList[1].auth" value="ROLE_MANAGER" 
+								<c:forEach var="authVO" items="${mvo.authList}">
+									<c:if test="${authVO.auth eq 'ROLE_MANAGER'}">
+										checked 
+									</c:if>
+								</c:forEach>
+							/> ROLE_MANAGER
+							<input type="checkbox" name="authList[2].auth" value="ROLE_ADMIN" 
+								<c:forEach var="authVO" items="${mvo.authList}">
+									<c:if test="${authVO.auth eq 'ROLE_ADMIN'}">
+										checked 
+									</c:if>
+								</c:forEach>
+							/> ROLE_ADMIN
+						</td>
+					</tr>
+					
 					<tr>
 						<td colspan="3" style="text-align: left;">
 							<!-- span 부분을 <span ~~/> 형식으로 두면, 폼을 작성하는 과정에서 등록 버튼이 안보이는 문제가 발생한다. <span></span>으로 작성해야 한다.  -->

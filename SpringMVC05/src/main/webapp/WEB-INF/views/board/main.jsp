@@ -218,7 +218,6 @@
 	    		</tr>
 	    		<tr>
 	    			<td>내용</td>
-	    			<!-- textarea는 하나에서 닫기까지 하면 구성 이상해짐. 앞 뒤로 닫아줘야 한다. -->
 	    			<td><textarea rows="7" id="content" name="content" class="form-control"></textarea></td>
 	    		</tr>
 	    		<tr>
