@@ -271,7 +271,6 @@ public class MemberController {
 		session.setAttribute("mvo", m);		
 		rttr.addFlashAttribute("msgType", "성공 메세지");
 		rttr.addFlashAttribute("msg", "이미지 변경이 성공했습니다.");
-		
 		return "redirect:/";
 	}
 }
